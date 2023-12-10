@@ -84,4 +84,56 @@ new_shape = X.shape
 print("Original Data Shape:", original_shape)
 print("New Data Shape:", new_shape)
 
+# Step 4: ROC Curve and AUC
+probabilities = model.predict_proba(X_test)[:, 1]
+fpr, tpr, _ = roc_curve(y_test, probabilities, pos_label='Bad')
 
+# Plot ROC curve
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, color='darkorange', lw=2, label='ROC curve (area = {:.2f})'.format(roc_auc_score(y_test, probabilities)))
+plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic (ROC) Curve')
+plt.legend(loc='lower right')
+plt.show()
+
+
+################################################
+################################################
+############        OUTPUT          ############
+################################################
+################################################
+
+
+# No missing values in the dataset
+# RandomForestClassifier(max_features=10, n_estimators=1500, random_state=123)
+#               precision    recall  f1-score   support
+#
+#          Bad       0.79      0.74      0.77        31
+#         Good       0.72      0.78      0.75        27
+#
+#     accuracy                           0.76        58
+#    macro avg       0.76      0.76      0.76        58
+# weighted avg       0.76      0.76      0.76        58
+#
+# [[87  8]
+#  [ 6 90]]
+# Total number of rows in the dataset: 191
+# Sum of the values in the confusion matrix: 191
+# The total number of rows in the dataset and the sum of the values in the confusion matrix are equal.
+# AUC: 0.8602150537634409
+# Cross-validation scores: [0.828125   0.671875   0.71428571]
+# Top 10 Features: Index(['1.4.1_SP_ACS_BSRVSAN__ALLAREA__2019', '10.7.4_SM_POP_REFG_OR____2019',
+#        '8.4.2_EN_MAT_DOMCMPG____2019', '1.4.1_SP_ACS_BSRVH2O__ALLAREA__2019',
+#        '3.2.1_SH_DYN_MORT_BOTHSEX__<5Y_2019', '9.2.1_NV_IND_MANFPC____2019',
+#        '3.2.1_SH_DYN_MORT_MALE__<5Y_2019',
+#        '3.2.1_SH_DYN_MORT_FEMALE__<5Y_2019',
+#        '3.2.1_SH_DYN_IMRT_BOTHSEX__<1Y_2019', '17.13.1_PA_NUS_ATLS____2019'],
+#       dtype='object')
+# Positive Sample Prediction: ['Good']
+# Negative Sample Prediction: ['Good']
+# Original Data Shape: (191, 322)
+# New Data Shape: (191, 321)
